@@ -42,8 +42,6 @@ class Particle():
         ((self.x - 10 + self.randoms[0], (self.y + self.randoms[1])),
         (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
         (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))), 0)
-        
-       
 
     def is_out_of_bounds(self):
         if (self.x > SCRNXB or self.x < -100 or
