@@ -9,6 +9,8 @@ colors = map(lambda x: [int(t) * 255 for t in x],
 shadowcolor = map(lambda x: [int(t) * 180 for t in x],
              ['{0:0>3b}'.format(t) for t in range(0, 8)])
 
+shadowcolor[0] = (20, 20, 20)
+
 class Particle():
 
     def __init__(self, x=SCRNXB / 2, y=SCRNYB + 300):
@@ -60,7 +62,6 @@ def init():
 
 
 def UI(screen, font, fade):
-    print fade
     pygame.draw.line(screen, fade, (40 + SCRNXB / 2, SCRNYB / 2), (-40 + SCRNXB / 2, SCRNYB / 2), 1)
     pygame.draw.line(screen, fade, (SCRNXB / 2, 40 + SCRNYB / 2),
                     (SCRNXB / 2, -40 + SCRNYB / 2), 1)
@@ -100,7 +101,7 @@ def main():
         pygame.display.flip()
         pygame.display.set_caption(caption.format(clock.get_fps(),
                                    mouse[0], mouse[1]))
-        screen.fill(colors[0])
+        screen.fill((30, 30, 30))
         clock.tick(60)
 
 if __name__ == "__main__":
