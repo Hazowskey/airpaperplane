@@ -13,6 +13,7 @@ shadowcolor[0] = (20, 20, 20)
 
 class Particle():
 
+
     def __init__(self, x=SCRNXB / 2, y=SCRNYB + 300):
         self.x = x
         self.y = y
@@ -37,8 +38,9 @@ class Particle():
         ((self.x - 10 + self.randoms[0] + 3, (self.y + self.randoms[1] - 3)),
         (self.x + self.randoms[2] + 3, (self.y - 5 + self.randoms[5] - 3)),
         (self.x + 10 + self.randoms[3] + 3, (self.y + self.randoms[6] - 3)),
-        (self.x + self.randoms[4] + 3, (self.y - 20 - self.randoms[7] - 3))), 0)
-       
+        (self.x + self.randoms[4] + 3, (self.y - 20 - self.randoms[7] - 3))),
+        0)
+
         pygame.draw.polygon(screen, self.color,
         ((self.x - 10 + self.randoms[0], (self.y + self.randoms[1])),
         (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
@@ -50,7 +52,7 @@ class Particle():
         ((self.x - 10 + self.randoms[0], (self.y + self.randoms[1])),
         (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
         (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))),
-        0)    
+        0)
 
     def is_out_of_bounds(self):
         if (self.x > SCRNXB or self.x < -100 or
@@ -69,7 +71,7 @@ def init():
 
 
 def UI(screen, font, fade):
-    pygame.draw.line(screen, fade, (40 + SCRNXB / 2, SCRNYB / 2), 
+    pygame.draw.line(screen, fade, (40 + SCRNXB / 2, SCRNYB / 2),
                     (-40 + SCRNXB / 2, SCRNYB / 2), 1)
     pygame.draw.line(screen, fade, (SCRNXB / 2, 40 + SCRNYB / 2),
                     (SCRNXB / 2, -40 + SCRNYB / 2), 1)
@@ -110,7 +112,7 @@ def main():
         pygame.display.flip()
         pygame.display.set_caption(caption.format(clock.get_fps(),
                                    mouse[0], mouse[1]))
-        screen.fill((30, 30, 30))
+        screen.fill(random.choice(color))
         clock.tick(60)
 
 if __name__ == "__main__":
