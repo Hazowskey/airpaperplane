@@ -4,8 +4,10 @@ SCRNXB = 800
 SCRNYB = 600
 
 colors = map(lambda x: [int(t) * 255 for t in x],
-             ['{0:0>3b}'.format(t) for t in range(1, 8)])
+             ['{0:0>3b}'.format(t) for t in range(0, 8)])
 
+shadowcolor = map(lambda x: [int(t) * 180 for t in x],
+             ['{0:0>3b}'.format(t) for t in range(0, 8)])
 
 class Particle():
 
@@ -13,6 +15,7 @@ class Particle():
         self.x = x
         self.y = y
         self.color = random.choice(colors)
+        self.secondcolor = shadowcolor[colors.index(self.color)]
         self.scalarisx = random.uniform(-1, 1)
         self.scalarisy = random.uniform(-1, 1)
         self.randoms = [random.randint(-5, 5) for x in range(0, 7)]
@@ -33,6 +36,12 @@ class Particle():
         (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
         (self.x + 10 + self.randoms[3], (self.y + self.randoms[6])),
         (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))), 0)
+        pygame.draw.polygon(screen, self.secondcolor,
+        ((self.x - 10 + self.randoms[0], (self.y + self.randoms[1])),
+        (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
+        (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))), 0)
+        
+       
 
     def is_out_of_bounds(self):
         if (self.x > SCRNXB or self.x < -100 or
@@ -47,21 +56,22 @@ def init():
     return pygame.display.set_mode((SCRNXB, SCRNYB),
            (pygame.HWSURFACE + pygame.HWACCEL +
            pygame.DOUBLEBUF + pygame.ASYNCBLIT),
-           8)
+           32)
 
 
-def UI(screen, font):
-    pygame.draw.line(screen, colors[6], (40 + SCRNXB / 2, SCRNYB / 2),
-                    (-40 + SCRNXB / 2, SCRNYB / 2), 1)
-    pygame.draw.line(screen, colors[6], (SCRNXB / 2, 40 + SCRNYB / 2),
+def UI(screen, font, fade):
+    print fade
+    pygame.draw.line(screen, fade, (40 + SCRNXB / 2, SCRNYB / 2), (-40 + SCRNXB / 2, SCRNYB / 2), 1)
+    pygame.draw.line(screen, fade, (SCRNXB / 2, 40 + SCRNYB / 2),
                     (SCRNXB / 2, -40 + SCRNYB / 2), 1)
-    screen.blit(font.render("Direction", 0, colors[6]),
+    screen.blit(font.render("Direction", 0, fade),
                            (-45 + SCRNXB / 2, SCRNYB / 2))
-    screen.blit(font.render("Speed", 0, colors[6]),
+    screen.blit(font.render("Speed", 0, fade),
                            (4 + SCRNXB / 2, -45 + SCRNYB / 2))
 
 
 def main():
+    fade = 255
     mouse = (0, 0)
     screen = init()
     font = pygame.font.Font(None, 15)
@@ -69,22 +79,28 @@ def main():
     particles = [Particle() for i in range(0, 50)]
     caption = "FPS: {0:.1f} X, Y: {1}, {2}"
     while True:
+        if fade > 1:
+            color =  (fade, fade, fade)
+            fade -= 1
+            UI(screen, font, color)
         for particle in particles:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEMOTION:
                     mouse = (event.pos[0] - SCRNXB / 2,
                              event.pos[1] - SCRNYB / 2)
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
             particle.move(mouse[0] * 0.001, mouse[1] * 0.001)
             if particle.is_out_of_bounds():
                 particle.__init__(random.randint(0, SCRNXB),
                                   SCRNYB + 50)
             particle.render(screen)
             particle.polyrender(screen)
-        UI(screen, font)
         pygame.display.flip()
         pygame.display.set_caption(caption.format(clock.get_fps(),
                                    mouse[0], mouse[1]))
-        screen.fill((0, 0, 0))
+        screen.fill(colors[0])
         clock.tick(60)
 
 if __name__ == "__main__":
