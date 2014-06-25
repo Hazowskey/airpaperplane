@@ -41,7 +41,7 @@ class Particle():
         pygame.draw.polygon(screen, self.secondcolor,
         ((self.x - 10 + self.randoms[0], (self.y + self.randoms[1])),
         (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
-        (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))), 0)
+        (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))), 0)    
 
     def is_out_of_bounds(self):
         if (self.x > SCRNXB or self.x < -100 or
@@ -60,7 +60,8 @@ def init():
 
 
 def UI(screen, font, fade):
-    pygame.draw.line(screen, fade, (40 + SCRNXB / 2, SCRNYB / 2), (-40 + SCRNXB / 2, SCRNYB / 2), 1)
+    pygame.draw.line(screen, fade, (40 + SCRNXB / 2, SCRNYB / 2), 
+                    (-40 + SCRNXB / 2, SCRNYB / 2), 1)
     pygame.draw.line(screen, fade, (SCRNXB / 2, 40 + SCRNYB / 2),
                     (SCRNXB / 2, -40 + SCRNYB / 2), 1)
     screen.blit(font.render("Direction", 0, fade),
