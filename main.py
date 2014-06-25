@@ -33,15 +33,24 @@ class Particle():
         pygame.draw.rect(screen, self.color, (self.x, self.y, 2, 2), 0)
 
     def polyrender(self, screen):
+        pygame.draw.polygon(screen, (20, 20, 20),
+        ((self.x - 10 + self.randoms[0] + 3, (self.y + self.randoms[1] - 3)),
+        (self.x + self.randoms[2] + 3, (self.y - 5 + self.randoms[5] - 3)),
+        (self.x + 10 + self.randoms[3] + 3, (self.y + self.randoms[6] - 3)),
+        (self.x + self.randoms[4] + 3, (self.y - 20 - self.randoms[7] - 3))), 0)
+       
         pygame.draw.polygon(screen, self.color,
         ((self.x - 10 + self.randoms[0], (self.y + self.randoms[1])),
         (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
         (self.x + 10 + self.randoms[3], (self.y + self.randoms[6])),
-        (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))), 0)
+        (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))),
+        0)
+
         pygame.draw.polygon(screen, self.secondcolor,
         ((self.x - 10 + self.randoms[0], (self.y + self.randoms[1])),
         (self.x + self.randoms[2], (self.y - 5 + self.randoms[5])),
-        (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))), 0)    
+        (self.x + self.randoms[4], (self.y - 20 - self.randoms[7]))),
+        0)    
 
     def is_out_of_bounds(self):
         if (self.x > SCRNXB or self.x < -100 or
@@ -73,14 +82,15 @@ def UI(screen, font, fade):
 def main():
     fade = 255
     mouse = (0, 0)
+    PLANES = 50
     screen = init()
     font = pygame.font.Font(None, 15)
     clock = pygame.time.Clock()
-    particles = [Particle() for i in range(0, 50)]
+    particles = [Particle() for i in range(0, PLANES)]
     caption = "FPS: {0:.1f} X, Y: {1}, {2}"
     while True:
         if fade > 1:
-            color =  (fade, fade, fade)
+            color = (fade, fade, fade)
             fade -= 1
             UI(screen, font, color)
         for particle in particles:
